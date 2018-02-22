@@ -17,23 +17,21 @@ def receving(name, sock):
         finally:
             tlock.release()
 
-host = '127.0.0.1'
+host = '192.168.1.5'
 port = 0
+
 #Join a Server or Create
 chatDestination= input(" [1]Join Global Chat ")
 if chatDestination == '1':
-    server = ('127.0.0.1', 5000)
-    
-elif chatDestination =='2':
-    hostnum=(input("Enter Host Name:"))
-    portnum=int(input("Enter Port Number:"))
-    server=(hostnum,portnum)
+    #server = ('127.0.0.1', 5000)
+    server = ('192.168.1.5', 5000)
     
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind((host, port))
 s.setblocking(0)
+
 #Threading
 rT = threading.Thread(target=receving, args=("RecvThread", s))
 rT.start()

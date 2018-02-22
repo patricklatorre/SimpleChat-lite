@@ -27,10 +27,11 @@ while not close:
             close = True
         if addr not in clients:
             clients.append(addr)
-           
-        
-       # for client in clients:
-           # s.sendto(data, client)
+        for client in clients:
+            s.sendto(data, client)
+
+
+
         if "/whisper" in str(data):
             pmdata,pmaddr=s.recvfrom(1024)
             print(pmaddr)
