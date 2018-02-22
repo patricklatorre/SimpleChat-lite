@@ -18,7 +18,7 @@ def receving(name, sock):
         finally:
             tlock.release()
 
-host = '192.168.1.6'
+host = '192.168.1.5'
 port = 0
 
 #Join a Server or Create
@@ -50,13 +50,16 @@ while message != '/leave':
         pm= pm.encode('utf-8') 
         s.sendto(pm, privateserver)
     
-    
+    elif message == '/members':
+        m = alias + ": " + message
+        m= m.encode('utf-8')
+        s.sendto(m, server)
     
     elif message != '':
         b = alias + ": " + message
         b= b.encode('utf-8')
         s.sendto(b, server)
-        
+    
     
     
     

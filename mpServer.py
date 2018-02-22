@@ -39,7 +39,10 @@ while not close:
                 s.sendto(pmdata,pmaddr)
         else:       
             print (time.ctime(time.time()) + str(addr) + ": :" + str(data))
-            
+
+        if "/members" in str(data):
+            for i in range(len(clients)):
+                print("User {}: Address:{}".format(i+1, clients[i]))      
       
     except:
         pass
