@@ -5,6 +5,7 @@ import time
 tlock = threading.Lock()
 shutdown = False
 
+# Receiving func
 def receving(name, sock):
     while not shutdown:
         try:
@@ -17,7 +18,7 @@ def receving(name, sock):
         finally:
             tlock.release()
 
-host = '192.168.1.5'
+host = '192.168.1.6'
 port = 0
 
 #Join a Server or Create
