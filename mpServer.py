@@ -42,7 +42,8 @@ while not close:
 
         if "/members" in str(data):
             for i in range(len(clients)):
-                print("User {}: Address:{}".format(i+1, clients[i]))      
+                print("User {}: Address:{}".format(i+1, clients[i]))
+          
       
     except:
         pass

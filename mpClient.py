@@ -1,6 +1,8 @@
 import socket
 import threading
 import time
+from tkinter import *
+
 
 tlock = threading.Lock()
 shutdown = False
@@ -54,7 +56,7 @@ while message != '/leave':
         m = alias + ": " + message
         m= m.encode('utf-8')
         s.sendto(m, server)
-    
+        
     elif message != '':
         b = alias + ": " + message
         b= b.encode('utf-8')
