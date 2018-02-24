@@ -19,6 +19,8 @@ class Client:
         return self.name
 
 
+
+
 ''' 
 ================================
 Functions
@@ -120,6 +122,7 @@ def send(messageField):
     __lock.release()
     time.sleep(0.2)
 
+
 # Add to feed
 def addToFeed(message):
     feed.config(state=NORMAL)
@@ -131,6 +134,9 @@ def addToFeed(message):
 # Kill switch
 def killProgram():
     raise SystemExit
+
+
+
 
 ''' 
 ================================
@@ -194,8 +200,6 @@ def gui():
 
 
 
-# 192.168.1.5
-
 
 
 
@@ -215,6 +219,9 @@ port = 0
 server = (serverIP, 5000)
 
 
+
+
+
 ''' 
 ================================
 Connection
@@ -228,6 +235,9 @@ s.setblocking(0)
 # Send Alias
 init_alias = alias.encode('utf-8')
 s.sendto(init_alias, server)
+
+
+
 
 
 ''' 
@@ -249,6 +259,9 @@ __gui.setName("GUI Thread") #for debugging purposes
 # START threads
 __receive.start()
 __gui.start()
+
+
+
 
 
 ''' 
