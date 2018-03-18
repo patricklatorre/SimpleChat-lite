@@ -10,13 +10,6 @@ import tkinter.simpledialog
 Classes
 ================================
 '''
-class Client:
-    name = ""
-    ip = ""
-    port = 0
-
-    def getName(self):
-        return self.name
 
 
 ''' 
@@ -103,7 +96,7 @@ def send(messageField):
         while privatePort == "":
             privatePort = tkinter.simpledialog.askstring(title="SimpleChat 0.1", prompt="Destination Port:")
         privateSocket = (privateIP, int(privatePort))
-        m = alias + ": " + message[9:]
+        m = "<whisper> " +alias+ ": " + message[9:]
         m = m.encode('utf-8')
         s.sendto(m, privateSocket)
 
@@ -191,10 +184,6 @@ def gui():
     sendBtn.pack(fill=X)
 
     mainScreen.mainloop()
-
-
-
-# 192.168.1.5
 
 
 
