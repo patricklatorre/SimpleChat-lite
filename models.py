@@ -69,7 +69,7 @@ class Group:
     def add_member(self, client, password=""):
         if str(self.password) == str(password):
             self.members.append(client)
-            print("<JoinRoom grp=" + str(self.group_id) + " mem=" + str(client) + ">")
+
 
     def check_total(self):
         return len(self.members)
@@ -104,10 +104,10 @@ class GroupManager:
         self.groups.append(Group(group_id=group_id, first_client=first_client, password=password))
         print("<GroupStatus total=" + str(len(self.groups)) + ">")
         print("<AddRoom name=" + group_id + ">")
-        print("password is " + str(self.groups[0].password))
 
     def join_chatroom(self, group_id, client, password):
         self.find_group(group_id).add_member(client=client, password=str(password))
+        print("<JoinRoom grp=" + str(group_id) + " mem=" + str(client) + ">")
 
     def find_group(self, name):
         for i in range(len(self.groups)):

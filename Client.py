@@ -5,11 +5,34 @@ from tkinter import *
 import tkinter.messagebox
 import tkinter.simpledialog
 
+
 ''' 
 ================================
-Classes
+Help String
 ================================
 '''
+help_string = "\t===============================================\n"
+help_string += "\t[HELP]\n"
+help_string += "\t/whisper\n\t\tSend a private message to a specific user on the server.\n"
+help_string += "\t/members\n\t\tSee all registered users in the server.\n"
+help_string += "\t/leave\n\t\tLeave and unregister from the server.\n"
+
+help_string += "\t/creategroup\n\t\tCreate an invite-only group.\n"
+help_string += "\t\tsyntax: /creategroup <groupname> <member1> <member2> ...\n"
+
+help_string += "\t/createroom\n\t\tCreate a joinable room with a password.\n"
+help_string += "\t\tsyntax: /createroom <roomname> <password>\n"
+
+help_string += "\t/join\n\t\tJoin a room.\n"
+help_string += "\t\tsyntax: /join <roomname> <password>\n"
+
+help_string += "\t[Targeted Messages] \n\t\t.\n"
+help_string += "\t\t@\t: privately message a user\n"
+help_string += "\t\t!\t: message a group\n"
+help_string += "\t\t#\t: message a room\n"
+
+help_string += "\tClose Server\n\t\t(admin) Terminate the server.\n"
+help_string += "\t===============================================\n"
 
 
 ''' 
@@ -88,6 +111,7 @@ def send(messageField):
     message = messageField.get()
     messageField.delete(0, 'end')
 
+    # OUTDATED #
     if "/whisper" in message:
         privateIP = ""
         privatePort = ""
@@ -104,6 +128,9 @@ def send(messageField):
         m = alias + ": " + message
         m = m.encode('utf-8')
         s.sendto(m, server)
+
+    elif message == '/help':
+        addToFeed(help_string)
 
     elif message != '':
         m = alias + ": " + message

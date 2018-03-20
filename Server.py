@@ -5,15 +5,6 @@ import tkinter.messagebox
 import tkinter.simpledialog
 from models import *
 
-# CONSTANTS
-help_string = "\t\t==========================================================================\n"
-help_string += "\t\t[HELP]\n"
-help_string += "\t\t/whisper\tSend a private message to a specific user on the server.\n"
-help_string += "\t\t/members\tSee all registered users in the server.\n"
-help_string += "\t\t/leave\tLeave and unregister from the server.\n"
-help_string += "\t\tClose Server\t(admin) Terminate the server.\n"
-help_string += "\t\t=========================================================================\n"
-
 
 # Gets NAME and IP of user
 def initServer():
@@ -77,11 +68,12 @@ def parse_groupmessage(details):
 def parse_whisper(details):
     split_details = details.split(" ")
     src = split_details[0]
+    rawsrc = src.split(":")[0]
     message = " ".join(split_details[2:])
     name = split_details[1][1:]
     src = "<whisper> " + str(src)
     print("<ParseWhisper src=" + str(src) + " gname=" + str(name) + " msg=" + str(message) + ">")
-    return str(src), str(name), message
+    return str(rawsrc), str(src), str(name), message
 
 def parse_createroom(details):
     split_details = details.split(" ")
@@ -136,9 +128,6 @@ while not close:
         elif "/members" in str(data):
             s.sendto(userbase.to_string().encode('utf-8'), addr)
 
-        elif "/help" in str(data):
-            s.sendto(help_string.encode('utf-8'), addr)
-
         elif "/creategroup" in str(data):
             details = str(data.decode('utf-8'))
             srcname, groupname, members = parse_creategroup(details)
@@ -151,18 +140,23 @@ while not close:
             rawsrc, srcname, groupname, message = parse_groupmessage(details)
             broadcast_message = " ".join([str(srcname), str(message)])
 
-            for i in range(len(userbase.clients)):
-                if groupbase.is_in_group(str(groupname), str(userbase.clients[i].username)):
-                    s.sendto(broadcast_message.encode('utf-8'), userbase.clients[i].address)
+            if groupbase.find_group(str(groupname)).is_in_group(str(rawsrc)):
+                for i in range(len(userbase.clients)):
+                    if groupbase.find_group(str(groupname)).is_in_group(str(userbase.clients[i].username)):
+                        s.sendto(broadcast_message.encode('utf-8'), userbase.clients[i].address)
+            else:
+                print("<GroupMessage src does not have access>")
 
         elif "@" in str(data).split(" ")[1][0]:
             details = str(data.decode('utf-8'))
-            srcname, destname, message = parse_whisper(details)
+            rawsrc, srcname, destname, message = parse_whisper(details)
             message = " ".join([str(srcname), str(message)])
 
             for i in range(len(userbase.clients)):
-                if str(destname) == str(userbase.clients[i].username):
+                if str(destname) == str(userbase.clients[i].username) or \
+                        str(rawsrc) == str(userbase.clients[i].username):
                     s.sendto(message.encode('utf-8'), userbase.clients[i].address)
+
 
         elif "/createroom" in str(data):
             details = str(data.decode('utf-8'))
@@ -181,7 +175,7 @@ while not close:
 
             if groupbase.find_group(str(groupname)).is_in_group(str(rawsrc)):
                 for i in range(len(userbase.clients)):
-                    if groupbase.is_in_group(str(groupname), str(userbase.clients[i].username)):
+                    if groupbase.find_group(str(groupname)).is_in_group(str(userbase.clients[i].username)):
                         s.sendto(broadcast_message.encode('utf-8'), userbase.clients[i].address)
             else:
                 print("<RoomMessage src does not have access>")
